@@ -12,7 +12,7 @@
 
 <body class="container py-4">
     @extends('layouts.master')
-    @section('title', 'Prime Numbers')
+    @section('title', 'Welcome')
     @section('content')
         <div class="card m-4">
             <div class="card-body">
