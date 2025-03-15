@@ -73,3 +73,6 @@ Route::get('products/delete/{product}', [
 
 Route::get('register', [ProfileController::class, 'register'])->name('register');
 Route::post('register', [ProfileController::class, 'doRegister'])->name('do_register');
+Route::get('profile/{user?}', [ProfileController::class, 'profile'])->name('profile');
+Route::get('users/edit/{user?}', [ProfileController::class, 'edit'])->name('users_edit');
+Route::post('users/save/{user}', [ProfileController::class, 'save'])->name('users_save');

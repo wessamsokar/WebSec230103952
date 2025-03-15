@@ -81,8 +81,11 @@ class ProductsController extends Controller
     }
     public function delete(Request $request, Product $product)
     {
+        if (!auth()->user()->hasPermissionTo('delete_products')) {
+            abort(401);
+        }
         $product->delete();
-        return redirect()->route('products.list'); // Update route name to match the defined route
+        return redirect()->route('products_list'); // Update route name to match the defined route
     }
     public function __construct()
     {

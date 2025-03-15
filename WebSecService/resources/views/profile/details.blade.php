@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -17,12 +16,44 @@
         <div class="card">
             <div class="card-header">Profile Details</div>
             <div class="card-body">
-            <h2 class="card-title">Profile Details</h2>
-                <h4>{{ $user->name }}</h4>
-                <p>Email: {{ $user->email }}</p>
+                <table class="table table-striped">
+                    <tr>
+                        <th>Name</th>
+                        <td>{{$user->name}}</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>{{$user->email}}</td>
+                    </tr>
+                    <tr>
+                        <th>Roles</th>
+                        <td>
+                            @if($user->roles)
+                                @foreach($user->roles as $role)
+                                    <span class="badge bg-primary">{{ $role->name }}</span>
+                                @endforeach
+                            @else
+                                <span>No roles assigned</span>
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Direct Permissions</th>
+                        <td>
+                            @if($user->permissions)
+                                @foreach($user->permissions as $permission)
+                                    <span class="badge bg-success">{{ $permission->display_name }}</span>
+                                @endforeach
+                            @else
+                                <span>No permissions assigned</span>
+                            @endif
+                        </td>
+                    </tr>
+                    
+                </table>
+
             </div>
         </div>
-        
     @endsection
 </body>
 
