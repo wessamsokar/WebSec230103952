@@ -34,9 +34,30 @@
                 {{ Auth::user()->name }}
             </a>
         @endif
-        <form action="{{ route('logout') }}" method="POST">
-            @csrf
-            <button type="submit" class="btn btn-danger w-100 mt-2">Logout</button>
-        </form>
+
+
+
+        <nav class="navbar navbar-expand-sm bg-light">
+            @auth
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-danger w-100 mt-2">Logout</button>
+                </form>
+            @else
+                <div class="container-fluid">
+
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('login')}}">Login</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('register')}}">Register</a>
+                        </li>
+            @endauth
+                </ul>
+            </div>
+        </nav>
+
     </div>
 </nav>

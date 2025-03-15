@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Validation\Rules\Password;
 class ProfileController extends Controller
 {
 
@@ -52,5 +53,34 @@ class ProfileController extends Controller
     {
         Auth::logout();
         return redirect()->route('login.form')->with('success', 'Logged out successfully!');
+    }
+    public function register(Request $request)
+    {
+        return view('users.register');
+    }
+    use ValidatesRequests;
+    public function doRegister(Request $request)
+    {
+        $this->validate($request, [
+            'name' => ['required', 'string', 'min:5'],
+            'email' => ['required', 'email', 'unique:users'],
+            'password' => [
+                'required',
+                'confirmed',
+                Password::min(8)->numbers()->letters()->mixedCase()->symbols()
+            ],
+        ]);
+        if ($request->password != $request->confirm_password)
+            return redirect()->route('register', ['error' => 'Confirm password not matched.']);
+        if (!$request->email || !$request->name || !$request->password)
+            return redirect()->route('register', ['error' => 'Missing registration info.']);
+        if (User::where('email', $request->email)->first()) //Secure
+            return redirect()->route('register', ['error' => 'Missing registration info.']);
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password); //Secure
+        $user->save();
+        return redirect("/");
     }
 }

@@ -58,13 +58,19 @@ class ProductsController extends Controller
     }
     public function edit(Request $request, Product $product = null)
     {
+        if (!auth()->check())
+            return redirect()->route('login');
         $product = $product ?? new Product();
-        return view("products.edit", compact('product'));
+        return view('products.edit', compact('product'));
     }
     public function save(Request $request, Product $product = null)
     {
         $request->validate([
-            'price' => 'required|numeric|min:0|max:9999999999',
+            'code' => ['required', 'string', 'max:32'],
+            'name' => ['required', 'string', 'max:128'],
+            'model' => ['required', 'string', 'max:256'],
+            'description' => ['required', 'string', 'max:1024'],
+            'price' => ['required', 'numeric'],
         ]);
 
         $product = $product ?? new Product();
@@ -77,6 +83,10 @@ class ProductsController extends Controller
     {
         $product->delete();
         return redirect()->route('products.list'); // Update route name to match the defined route
+    }
+    public function __construct()
+    {
+        $this->middleware('auth:web')->except('list');
     }
 }
 

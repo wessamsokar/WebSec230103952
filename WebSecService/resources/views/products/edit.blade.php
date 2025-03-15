@@ -19,6 +19,12 @@
             </div>
             <div class="card-body">
                 <form action="{{ route('products_save', $product->id ?? '') }}" method="POST" enctype="multipart/form-data">
+                    {{ csrf_field() }}
+                    @foreach($errors->all() as $error)
+                        <div class="alert alert-danger">
+                            <strong>Error!</strong> {{$error}}
+                        </div>
+                    @endforeach
                     @csrf
                     <div class="mb-3">
                         <label for="name" class="form-label">Product Name</label>

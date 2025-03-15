@@ -21,7 +21,9 @@
                         <h1>Products</h1>
                     </div>
                     <div class="col col-2">
-                        <a href="{{ route('products_edit') }}" class="btn btn-success form-control">Add Product</a>
+                        @auth
+                            <a href="{{ route('products_edit') }}" class="btn btn-success form-control">Add Product</a>
+                        @endauth
                     </div>
                 </div>
             </div>

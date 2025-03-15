@@ -70,3 +70,6 @@ Route::get('products/delete/{product}', [
     ProductsController::class,
     'delete'
 ])->name('products_delete');
+
+Route::get('register', [ProfileController::class, 'register'])->name('register');
+Route::post('register', [ProfileController::class, 'doRegister'])->name('do_register');
