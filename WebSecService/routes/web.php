@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ProfileController;
-
+use App\Http\Controllers\Web\ProductsController; // Ensure this import is present
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/welcome', function () {
@@ -53,3 +53,20 @@ Route::post('/users', [UserController::class, 'store'])->name('users.store');
 Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
 Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
 Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+
+Route::get('products', [ProductsController::class, 'list'])->name('products.list'); // Ensure this route is correctly defined
+
+Route::get('products/edit/{product?}', [
+    ProductsController::class,
+    'edit'
+])->name('products_edit');
+
+Route::post('products/save/{product?}', [
+    ProductsController::class,
+    'save'
+])->name('products_save');
+
+Route::get('products/delete/{product}', [
+    ProductsController::class,
+    'delete'
+])->name('products_delete');

@@ -25,6 +25,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('users.index') }}">Users</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('products.list') }}">Products</a>
+            </li>
         </ul>
         @if(Auth::check())
             <a href="{{ route('profile.details') }}" class="text-primary text-decoration-none">
