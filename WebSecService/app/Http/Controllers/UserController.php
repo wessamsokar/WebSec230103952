@@ -14,7 +14,7 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        // Debugging: Log the request data
+
         \Log::info('Store Request Data:', $request->all());
 
         $request->validate([
@@ -25,7 +25,6 @@ class UserController extends Controller
             'email.unique' => 'The email has already been taken.'
         ]);
 
-        // Debugging: Check if validation passed
         \Log::info('Validation passed');
 
         $user = User::create([
@@ -34,7 +33,7 @@ class UserController extends Controller
             'password' => bcrypt($request->password)
         ]);
 
-        // Debugging: Check if user is created
+
         \Log::info('User created successfully', ['user' => $user]);
 
         return redirect()->route('users.index')->with('success', 'User created successfully!');

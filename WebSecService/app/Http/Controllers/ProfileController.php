@@ -8,19 +8,29 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Validation\Rules\Password;
+use DB;
+use App\Http\Controllers\Controller;
+
 use Illuminate\Support\Facades\Artisan;
 class ProfileController extends Controller
 {
+
+    public function register(Request $request)
+    {
+        return view('auth.register');
+    }
     public function index()
     {
-        $user = Auth::user(); // Fetch authenticated user data
+        $user = Auth::user();
 
         return view('profile.index', compact('user'));
     }
 
     public function details()
     {
-        $user = Auth::user(); // Fetch authenticated user data
+        $user = Auth::user();
 
         return view('profile.details', compact('user'));
     }
@@ -49,7 +59,7 @@ class ProfileController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            return redirect()->route('profile')->with('success', 'Logged in successfully!');
+            return redirect()->route('welcome')->with('success', 'Logged in successfully!');
         }
 
         return redirect()->back()->withErrors(['email' => 'Invalid email or password.']);
@@ -58,7 +68,7 @@ class ProfileController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect()->route('login.form')->with('success', 'Logged out successfully!');
+        return redirect()->route('welcome')->with('success', 'Logged out successfully!');
     }
     public function profile(Request $request, User $user = null)
     {
@@ -114,4 +124,31 @@ class ProfileController extends Controller
         }
         return redirect(route('profile', ['user' => $user]));
     }
+
+    public function doRegister(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'min:5'],
+            'email' => ['required', 'email', 'unique:users'],
+            
+
+        ]);
+
+        if ($request->password != $request->password_confirmation)
+
+            return redirect()->route('register', ['error' => 'Confirm password not matched.']);
+
+        if (!$request->email || !$request->name || !$request->password)
+            return redirect()->route('register', ['error' => 'Missing registration info.']);
+        if (User::where('email', $request->email)->first()) //Secure
+            return redirect()->route('register', ['error' => 'Missing registration info.']);
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password); //Secure
+        $user->save();
+        return redirect("/");
+    }
+
+
 }

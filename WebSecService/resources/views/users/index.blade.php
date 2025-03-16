@@ -29,7 +29,7 @@
                         <a href="{{ route('users.index') }}" class="btn btn-secondary">Reset</a>
                     </div>
                 </form>
-
+                 
                 <a href="{{ route('users.create') }}" class="btn btn-success mb-4">Create New User</a>
                 <table class="table table-bordered">
                     <thead>
@@ -60,7 +60,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{ $users->links('pagination::bootstrap-5') }}
+
             </div>
         @endsection
 </body>

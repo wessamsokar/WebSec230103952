@@ -29,7 +29,10 @@
                         <label for="password" class="form-label">Password</label>
                         <input type="password" class="form-control" id="password" name="password" required>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Login</button>
+                    <div>
+                        <a class="nav-link" href="{{route('register')}}">Register</a>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100" href="./resgister">Login</button>
                 </form>
                 <a href="{{ route('profile.change-password') }}" class="btn btn-secondary w-100 mt-2">Change
                     Password</a>
@@ -38,5 +41,4 @@
     </div>
 </body>
 
-</h
-tml>
+</h tml>
