@@ -1,65 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.master')
+@section('title', 'Prime Numbers')
+@section('content')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Product</title>
-    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-</head>
-
-<body class="container py-4">
-    @extends('layouts.master')
-    @section('title', 'Edit Product')
-    @section('content')
-        <div class="card">
-            <div class="card-header">
-                <h1>Edit Product</h1>
+    <form action="{{route('products_save', $product->id)}}" method="post">
+        {{ csrf_field() }}
+        {{ csrf_field() }}
+        @foreach($errors->all() as $error)
+            <div class="alert alert-danger">
+                <strong>Error!</strong> {{$error}}
             </div>
-            <div class="card-body">
-                <form action="{{ route('products_save', $product->id ?? '') }}" method="POST" enctype="multipart/form-data">
-                    {{ csrf_field() }}
-                    @foreach($errors->all() as $error)
-                        <div class="alert alert-danger">
-                            <strong>Error!</strong> {{$error}}
-                        </div>
-                    @endforeach
-                    @csrf
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Product Name</label>
-                        <input type="text" class="form-control" id="name" name="name" value="{{ $product->name ?? '' }}"
-                            required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="model" class="form-label">Model</label>
-                        <input type="text" class="form-control" id="model" name="model" value="{{ $product->model ?? '' }}"
-                            required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="code" class="form-label">Code</label>
-                        <input type="text" class="form-control" id="code" name="code" value="{{ $product->code ?? '' }}"
-                            required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control" id="description" name="description" rows="3"
-                            required>{{ $product->description ?? '' }}</textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="price" class="form-label">Price</label>
-                        <input type="number" class="form-control" id="price" name="price"
-                            value="{{ $product->price ?? '' }}" required min="0" max="9999999999">
-                    </div>
-                    <div class="mb-3">
-                        <label for="photo" class="form-label">Photo</label>
-                        <input type="file" class="form-control" id="photo" name="photo">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </form>
+        @endforeach
+        <div class="row mb-2">
+            <div class="col-6">
+                <label for="code" class="form-label">Code:</label>
+                <input type="text" class="form-control" placeholder="Code" name="code" required value="{{$product->code}}">
+            </div>
+            <div class="col-6">
+                <label for="model" class="form-label">Model:</label>
+                <input type="text" class="form-control" placeholder="Model" name="model" required
+                    value="{{$product->model}}">
             </div>
         </div>
-    @endsection
-</body>
-
-</html>
+        <div class="row mb-2">
+            <div class="col">
+                <label for="name" class="form-label">Name:</label>
+                <input type="text" class="form-control" placeholder="Name" name="name" required value="{{$product->name}}">
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-6">
+                <label for="model" class="form-label">Price:</label>
+                <input type="numeric" class="form-control" placeholder="Price" name="price" required
+                    value="{{$product->price}}">
+            </div>
+            <div class="col-6">
+                <label for="model" class="form-label">Photo:</label>
+                <input type="text" class="form-control" placeholder="Photo" name="photo" required
+                    value="{{$product->photo}}">
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col">
+                <label for="name" class="form-label">Description:</label>
+                <textarea type="text" class="form-control" placeholder="Description" name="description"
+                    required>{{$product->description}}</textarea>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+@endsection

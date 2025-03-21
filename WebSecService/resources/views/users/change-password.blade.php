@@ -16,7 +16,7 @@
                 @if (session('success'))
                     <div class="alert alert-success">{{ session('success') }}</div>
                 @endif
-                <form action="{{ route('profile.update-password') }}" method="POST">
+                <form action="{{ route('users.update-password') }}" method="POST">
                     @csrf
                     <div class="mb-3">
                         <label for="email" class="form-label">Email address</label>
