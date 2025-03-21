@@ -5,7 +5,7 @@
     @section('content')
         <div class="container">
             <h1 class="mb-4">Students</h1>
-            @if(auth()->check() && auth()->user()->role === 'Admin')
+            @if($isAdmin)
                 <a href="{{ route('student.create') }}" class="btn btn-success mb-4">Create New Student</a>
             @endif
             <table class="table table-bordered">
@@ -22,11 +22,10 @@
                             <td>{{ $student->name }}</td>
                             <td>{{ $student->age }}</td>
                             <td>{{ $student->major }}</td>
-                            @if(auth()->check() && auth()->user()->role === 'Admin')
+                            @if($isAdmin)
                                 <td>
                                     <a href="" class="btn btn-warning btn-sm">Edit</a>
-                                    <button type="submit" class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Are you sure?')">Delete</button>
+                                    <button class="btn btn-danger btn-sm">Delete</button>
                                 </td>
                             @endif
                         </tr>

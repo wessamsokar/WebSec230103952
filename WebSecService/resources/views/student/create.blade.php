@@ -1,5 +1,4 @@
-@extends('layouts.app')
-
+@extends('layouts.master')
 @section('content')
     <div class="container">
         <h1 class="mb-4">Create Student</h1>

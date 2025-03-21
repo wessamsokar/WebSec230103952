@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 21, 2025 at 11:03 AM
+-- Generation Time: Mar 21, 2025 at 12:03 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -222,8 +222,8 @@ CREATE TABLE `products` (
 
 INSERT INTO `products` (`id`, `code`, `name`, `price`, `model`, `description`, `photo`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (4, 'TV01', 'TV', 180000, 'LG ndjzj', 'jkdckadckjdancjkzdncjknnzcnzknckkc ascskjnajnjncjkas akjsnajknjksan ajbjbjs', 'C:\\xampp\\tmp\\php4BF3.tmp', '2025-03-15 13:49:42', '2025-03-16 08:04:13', NULL),
-(5, 'kslklkf', 'LG', 2000, 'LG', 'nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn', 'C:\\xampp\\tmp\\phpAEE8.tmp', '2025-03-15 13:57:19', '2025-03-15 14:00:47', NULL),
-(6, 'SAM01', 'Mobile', 100022, 'Samsung', 'caklc nsma,nsa ksjdklad ksnkl', NULL, '2025-03-15 13:59:32', '2025-03-15 13:59:48', NULL);
+(6, 'SAM01', 'Mobile', 100022, 'Samsung', 'caklc nsma,nsa ksjdklad ksnkl', NULL, '2025-03-15 13:59:32', '2025-03-15 13:59:48', NULL),
+(8, 'LG023', 'LG', 20, 'Samsung', 'kjhakjef kajhkjahd khdahd ajdl', 'path', '2025-03-21 08:13:33', '2025-03-21 08:13:33', NULL);
 
 -- --------------------------------------------------------
 
@@ -293,7 +293,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('VUNJFjeMEwFhOvnQdSIRBJmQrkiOZkSgQPA86QQ9', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoieWIxRWxxV1pvTTBUbEQ2TnBhYUdMVzRjVHpRZjJvVnd0SjhEN2RiTSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjk6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wcm9maWxlIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9', 1742551287);
+('20E6Zzr31Csaw60vhG3CkOaP9pHHAYbEhKf76UIQ', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoieWIxRWxxV1pvTTBUbEQ2TnBhYUdMVzRjVHpRZjJvVnd0SjhEN2RiTSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjk6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9zdHVkZW50Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9', 1742554987);
 
 -- --------------------------------------------------------
 
@@ -333,18 +333,17 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `role` varchar(255) DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `role`) VALUES
-(1, 'Wessam Hany', 'wessam230103952@sut.edu.eg', NULL, '$2y$12$67Lls4dNx3JI7qiIeQABm.Ie.2jTQA9nFfEQui4EcRS.PK7MgmyK6', NULL, '2025-03-13 16:28:28', '2025-03-16 17:18:38', 'Admin'),
-(16, 'Aya', 'aya333@icloud.com', NULL, '$2y$12$67Lls4dNx3JI7qiIeQABm.Ie.2jTQA9nFfEQui4EcRS.PK7MgmyK6', NULL, '2025-03-13 18:05:09', '2025-03-13 18:05:09', NULL),
-(18, 'Samira Hoassam', 'samira230102222@sut.edu.eg', NULL, '$2y$12$TS3L2JqOD5HBof313.PkEeCDLVDdJP16/IW6p//We5.TF7mXg6Vni', NULL, '2025-03-21 07:54:59', '2025-03-21 07:58:40', NULL);
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'Wessam Hany', 'wessam230103952@sut.edu.eg', NULL, '$2y$12$67Lls4dNx3JI7qiIeQABm.Ie.2jTQA9nFfEQui4EcRS.PK7MgmyK6', NULL, '2025-03-13 16:28:28', '2025-03-16 17:18:38'),
+(16, 'Aya', 'aya333@icloud.com', NULL, '$2y$12$67Lls4dNx3JI7qiIeQABm.Ie.2jTQA9nFfEQui4EcRS.PK7MgmyK6', NULL, '2025-03-13 18:05:09', '2025-03-13 18:05:09'),
+(18, 'Samira Hoassam', 'samira230102222@sut.edu.eg', NULL, '$2y$12$TS3L2JqOD5HBof313.PkEeCDLVDdJP16/IW6p//We5.TF7mXg6Vni', NULL, '2025-03-21 07:54:59', '2025-03-21 07:58:40');
 
 --
 -- Indexes for dumped tables
@@ -476,13 +475,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `roles`

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 use Illuminate\Http\Request;
 use App\Models\Student;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
 {
@@ -53,6 +54,12 @@ class StudentController extends Controller
 
         $students = $query->paginate(10);
 
-        return view('student.index', compact('students'));
+        $isAdmin = DB::table('model_has_roles')
+            ->where('model_id', auth()->id())
+            ->where('model_type', 'App\\Models\\User')
+            ->where('role_id', 1) // Assuming role_id = 1 is for Admin
+            ->exists();
+
+        return view('student.index', compact('students', 'isAdmin'));
     }
 }
