@@ -11,6 +11,8 @@ Route::get('login', [UsersController::class, 'login'])->name('login');
 Route::post('login', [UsersController::class, 'doLogin'])->name('do_login');
 Route::get('logout', [UsersController::class, 'doLogout'])->name('do_logout');
 Route::get('users', [UsersController::class, 'list'])->name('users.list');
+Route::get('users/create', [UsersController::class, 'create'])->name('users.create');
+Route::post('/users', [UsersController::class, 'store'])->name('users.store');
 Route::get('profile/{user?}', [UsersController::class, 'profile'])->name('profile');
 Route::get('users/edit/{user?}', [UsersController::class, 'edit'])->name('users_edit');
 Route::post('users/save/{user}', [UsersController::class, 'save'])->name('users_save');
@@ -54,4 +56,5 @@ Route::get('/student', [StudentController::class, 'index'])->name('student.index
 Route::middleware(['auth'])->group(function () {
     Route::get('/student/create', [StudentController::class, 'create'])->name('student.create');
     Route::post('/student', [StudentController::class, 'store'])->name('student.store');
+    Route::get('student/delete/{student}', [StudentController::class, 'delete'])->name('student_delete');
 });
