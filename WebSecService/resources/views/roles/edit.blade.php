@@ -7,6 +7,10 @@
             @csrf
             @method('PUT')
             <div class="form-group">
+                <label for="id">ID</label>
+                <input type="text" name="id" id="id" class="form-control" value="{{ $role->id }}" readonly>
+            </div>
+            <div class="form-group">
                 <label for="name">Name</label>
                 <input type="text" name="name" id="name" class="form-control" value="{{ $role->name }}" readonly>
             </div>
