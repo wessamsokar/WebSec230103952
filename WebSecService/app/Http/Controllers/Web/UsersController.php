@@ -123,7 +123,7 @@ class UsersController extends Controller
 
         return view('users.profile', compact('user', 'permissions'));
     }
-jhkjhhjhjkhkhj
+    
     public function edit(Request $request, User $user = null)
     {
 
