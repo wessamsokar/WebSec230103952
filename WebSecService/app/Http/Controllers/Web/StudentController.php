@@ -16,6 +16,8 @@ class StudentController extends Controller
     public function store(Request $request)
     {
 
+        \Log::info('Store Request Data:', $request->all());
+
         $request->validate([
             'name' => 'required',
             'age' => 'required',
@@ -23,6 +25,7 @@ class StudentController extends Controller
 
         ], );
 
+        \Log::info('Validation passed');
 
         $student = Student::create([
             'name' => $request->name,
@@ -31,6 +34,7 @@ class StudentController extends Controller
         ]);
 
 
+        \Log::info('Student created successfully', ['student' => $_POST]);
 
         return redirect()->route('student.index')->with('success', 'Student created successfully!');
     }
