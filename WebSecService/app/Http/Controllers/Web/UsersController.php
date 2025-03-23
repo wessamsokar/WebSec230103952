@@ -28,6 +28,38 @@ class UsersController extends Controller
         $users = $query->get();
         return view('users.list', compact('users'));
     }
+    public function create()
+    {
+        return view('users.create');
+    }
+
+    public function store(Request $request)
+    {
+        // Debugging: Log the request data
+        \Log::info('Store Request Data:', $request->all());
+
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required'
+        ], [
+            'email.unique' => 'The email has already been taken.'
+        ]);
+
+        // Debugging: Check if validation passed
+        \Log::info('Validation passed');
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password)
+        ]);
+
+        // Debugging: Check if user is created
+        \Log::info('User created successfully', ['user' => $user]);
+
+        return redirect()->route('users.list')->with('success', 'User created successfully!');
+    }
 
     public function register(Request $request)
     {
@@ -180,9 +212,9 @@ class UsersController extends Controller
         if (!auth()->user()->hasPermissionTo('delete_users'))
             abort(401);
 
-        //$user->delete();
+        $user->delete();
 
-        return redirect()->route('users');
+        return redirect()->route('users.list');
     }
 
     public function editPassword(Request $request, User $user = null)

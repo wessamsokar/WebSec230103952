@@ -62,4 +62,10 @@ class StudentController extends Controller
 
         return view('student.index', compact('students', 'isAdmin'));
     }
+    public function delete(Request $request, Student $student)
+    {
+        $student->delete();
+
+        return redirect()->route('student.index');
+    }
 }

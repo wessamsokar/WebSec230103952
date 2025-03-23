@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.master')
 
 @section('content')
     <div class="container">
@@ -18,7 +18,7 @@
                 <input type="password" name="password" class="form-control" required>
             </div>
             <button type="submit" class="btn btn-primary">Create</button>
-            <a href="{{ route('users.index') }}" class="btn btn-secondary">Cancel</a>
+            <a href="{{ route('users.list') }}" class="btn btn-secondary">Cancel</a>
         </form>
     </div>
 @endsection

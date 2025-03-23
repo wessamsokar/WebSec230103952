@@ -25,7 +25,7 @@
                             @if($isAdmin)
                                 <td>
                                     <a href="" class="btn btn-warning btn-sm">Edit</a>
-                                    <button class="btn btn-danger btn-sm">Delete</button>
+                                    <a class="btn btn-danger" href='{{route('student_delete', [$student->id])}}'>Delete</a>
                                 </td>
                             @endif
                         </tr>
