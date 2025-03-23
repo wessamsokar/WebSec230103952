@@ -10,7 +10,6 @@
             @endif
             <table class="table table-bordered">
                 <thead>
-                    jhgjhghjjg
                     <tr>
                         <th>Name</th>
                         <th>Age</th>
