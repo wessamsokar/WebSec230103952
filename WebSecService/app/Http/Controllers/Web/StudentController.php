@@ -36,24 +36,11 @@ class StudentController extends Controller
 
     public function index(Request $request)
     {
-        $query = Student::query();
+        $students = Student::all();
 
-        if ($request->has('search')) {
-            $search = $request->search;
-            if (is_numeric($search)) {
-                $query->where('id', $search);
-            } else {
-                $query->where('name', 'like', '%' . $search . '%');
-            }
-        }
 
-        $students = $query->paginate(10);
 
-        $isAdmin = DB::table('model_has_roles')
-            ->where('model_id', auth()->id())
-            ->where('model_type', 'App\\Models\\User')
-            ->where('role_id', 1) // Assuming role_id = 1 is for Admin
-            ->exists();
+        $isAdmin = auth()->check() && auth()->user()->hasRole('Admin');
 
         return view('student.index', compact('students', 'isAdmin'));
     }
