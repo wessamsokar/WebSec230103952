@@ -37,7 +37,8 @@ class RoleController extends Controller
         ]);
 
         if ($request->permissions) {
-            $role->syncPermissions($request->permissions);
+            $permissions = Permission::pluck('id')->toArray();
+            $role->syncPermissions($permissions);
         }
 
         return redirect()->route('roles.index')->with('success', 'Role created successfully.');
@@ -66,7 +67,13 @@ class RoleController extends Controller
         }
 
         $role->update(['name' => $request->name]);
-        $role->syncPermissions($request->permissions ?? []);
+
+        if ($request->permissions) {
+            $permissions = Permission::pluck('id')->toArray();
+            $role->syncPermissions($permissions);
+        } else {
+            $role->syncPermissions([]);
+        }
 
         return redirect()->route('roles.index')->with('success', 'Role updated successfully.');
     }
