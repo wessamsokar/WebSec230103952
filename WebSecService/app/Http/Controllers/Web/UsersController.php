@@ -192,8 +192,7 @@ class UsersController extends Controller
             Artisan::call('cache:clear');
         }
 
-        //$user->syncRoles([1]);
-        //Artisan::call('cache:clear');
+    
 
         return redirect(route('profile', ['user' => $user->id]));
     }
