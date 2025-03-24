@@ -40,7 +40,7 @@ class StudentController extends Controller
 
 
 
-        $isAdmin = auth()->check() && auth()->user()->hasRole('Admin');
+        $isAdmin = auth()->user()->hasRole('Admin');
 
         return view('student.index', compact('students', 'isAdmin'));
     }

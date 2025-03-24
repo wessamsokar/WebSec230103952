@@ -63,3 +63,9 @@ Route::middleware(['auth'])->group(function () {
 
 Route::resource('permissions', PermissionController::class);
 Route::resource('roles', RoleController::class);
+
+
+
+Route::middleware(['auth', 'check.credit'])->group(function () {
+    Route::post('/purchase', [UsersController::class, 'purchase'])->name('purchase');
+});
