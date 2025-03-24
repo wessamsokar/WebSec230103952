@@ -31,6 +31,16 @@
                 <a class="nav-link" href="{{ url('/student') }}">Student</a>
 
             </li>
+            @can('admin_users')
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('/permissions') }}">Permissions</a>
+
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('/roles') }}">Roles</a>
+
+            </li>
+            @endcan
         </ul>
         <ul class="navbar-nav">
             @auth

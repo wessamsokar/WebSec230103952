@@ -18,7 +18,6 @@ class ProductsController extends Controller
 
     public function list(Request $request)
     {
-
         $query = Product::select("products.*");
 
         $query->when(
@@ -46,14 +45,21 @@ class ProductsController extends Controller
 
     public function edit(Request $request, Product $product = null)
     {
-
-        if (!auth()->user())
+        if (!auth()->user()) {
             return redirect('/');
+        }
+
+        // Check if user has permission to edit products
+        if (!auth()->user()->hasPermissionTo('edit_products')) {
+            abort(401);
+        }
 
         $product = $product ?? new Product();
 
         return view('products.edit', compact('product'));
     }
+
+
 
     public function save(Request $request, Product $product = null)
     {

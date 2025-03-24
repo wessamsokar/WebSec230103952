@@ -15,29 +15,54 @@ class UsersController extends Controller
 {
 
     use ValidatesRequests;
+    public function insufficientCredit()
+    {
+        return view('users.insufficient-credit');
+    }
+
+    public function purchase(Request $request, User $user)
+    {
+      
+        if ($user->credit < $request->amount) {
+
+            return view('users.insufficient-credit', ['user' => $user]);
+        }
+
+
+        $user->credit -= $request->amount;
+        $user->save();
+
+        return redirect()->route('dashboard')->with('success', 'Purchase completed!');
+    }
+
 
     public function list(Request $request)
     {
-        if (!auth()->user()->hasPermissionTo('show_users'))
+        if (!auth()->user()->hasPermissionTo('show_users')) {
             abort(401);
-        $query = User::select('*');
+        }
+
+        $query = User::query();
+
+        if (!auth()->user()->hasRole('Admin')) {
+            $query->whereHas('roles', function ($q) {
+                $q->where('name', 'Customer');
+            });
+        }
+
         $query->when(
             $request->keywords,
             fn($q) => $q->where("name", "like", "%$request->keywords%")
         );
+
         $users = $query->get();
         return view('users.list', compact('users'));
     }
-    public function create()
-    {
-        return view('users.create');
-    }
+
+
 
     public function store(Request $request)
     {
-        // Debugging: Log the request data
-        \Log::info('Store Request Data:', $request->all());
-
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users',
@@ -46,17 +71,12 @@ class UsersController extends Controller
             'email.unique' => 'The email has already been taken.'
         ]);
 
-        // Debugging: Check if validation passed
-        \Log::info('Validation passed');
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password)
         ]);
-
-        // Debugging: Check if user is created
-        \Log::info('User created successfully', ['user' => $user]);
 
         return redirect()->route('users.list')->with('success', 'User created successfully!');
     }
@@ -68,26 +88,25 @@ class UsersController extends Controller
 
     public function doRegister(Request $request)
     {
+        $request->validate([
+            'name' => ['required', 'string', 'min:5'],
+            'email' => ['required', 'email', 'unique:users'],
+            'password' => ['required', 'string', 'min:8'], // أضفت حد أدنى لكلمة المرور
+        ]);
 
-        try {
-            $this->validate($request, [
-                'name' => ['required', 'string', 'min:5'],
-                'email' => ['required', 'email', 'unique:users'],
-
-            ]);
-        } catch (\Exception $e) {
-
-            return redirect()->back()->withInput($request->input())->withErrors('Invalid registration information.');
-        }
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'credit' => 0.00,
+        ]);
 
 
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = bcrypt($request->password); //Secure
-        $user->save();
+        $user->assignRole('Customer');
 
-        return redirect('/');
+        Auth::login($user);
+
+        return redirect('/')->with('success', 'Registration successful!');
     }
 
     public function showChangePasswordForm()
@@ -200,8 +219,7 @@ class UsersController extends Controller
             Artisan::call('cache:clear');
         }
 
-        //$user->syncRoles([1]);
-        //Artisan::call('cache:clear');
+
 
         return redirect(route('profile', ['user' => $user->id]));
     }
