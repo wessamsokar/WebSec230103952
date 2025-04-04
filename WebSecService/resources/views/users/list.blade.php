@@ -24,14 +24,20 @@
     <div class="card mt-2">
         <div class="card-body">
             <table class="table">
-                <a href="{{ route('users.create') }}" class="btn btn-success mb-4">Create New User</a>
+                @can('admin_users')
+                    <a href="{{ route('users.create') }}" class="btn btn-success mb-4">Create New User</a>
+                @endcan
                 <thead>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
                         <th scope="col">Email</th>
                         <th scope="col">Roles</th>
-                        <th scope="col"></th>
+                        <th scope="col">Credit</th>
+                        @can('edit_users' && 'delete_users')
+                            <th scope="col">Actions</th>
+                            <th scope="col">Actions</th>
+                        @endcan
                     </tr>
                 </thead>
                 @foreach($users as $user)
@@ -44,6 +50,16 @@
                                 <span class="badge bg-primary">{{$role->name}}</span>
                             @endforeach
                         </td>
+                        <td scope="col">
+                            <form action="{{ route('update.credit') }}" method="POST">
+                                @csrf
+                                <input type="number" name="credit" class="form-control" value="{{ $user->credit }}" min="{{ $user->credit }}">
+                                <input type="hidden" name="id" value="{{ $user->id }}">
+                                <button type="submit" class="btn btn-primary mt-2">Update</button>
+                            </form>
+
+                        </td>
+
                         <td scope="col">
                             @can('edit_users')
                                 <a class="btn btn-primary" href='{{route('users_edit', [$user->id])}}'>Edit</a>

@@ -28,6 +28,10 @@
                         @endforeach
                     </td>
                 </tr>
+                <tr>
+                    <th>Credite</th>
+                    <td>{{$user->credit}}</td>
+                </tr>
             </table>
 
             <div class="row">

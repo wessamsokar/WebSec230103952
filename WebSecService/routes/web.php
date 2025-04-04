@@ -14,6 +14,7 @@ Route::post('login', [UsersController::class, 'doLogin'])->name('do_login');
 Route::get('logout', [UsersController::class, 'doLogout'])->name('do_logout');
 Route::get('users', [UsersController::class, 'list'])->name('users.list');
 Route::get('users/create', [UsersController::class, 'create'])->name('users.create');
+Route::post('/users/store', [UsersController::class, 'store'])->name('users.store');
 Route::get('profile/{user?}', [UsersController::class, 'profile'])->name('profile');
 Route::get('users/edit/{user?}', [UsersController::class, 'edit'])->name('users_edit');
 Route::post('users/save/{user}', [UsersController::class, 'save'])->name('users_save');
@@ -26,7 +27,8 @@ Route::get('/users/change-password', [UsersController::class, 'showChangePasswor
 
 Route::get('products', [ProductsController::class, 'list'])->name('products_list');
 Route::get('products/edit/{product?}', [ProductsController::class, 'edit'])->name('products_edit');
-Route::post('products/save/{product?}', [ProductsController::class, 'save'])->name('products_save');
+Route::post('/products/save/{id?}', [ProductsController::class, 'save'])->name('products_save');
+Route::put('/products/save/{id?}', [ProductsController::class, 'save'])->name('products_save');
 Route::get('products/delete/{product}', [ProductsController::class, 'delete'])->name('products_delete');
 
 Route::get('/', function () {
@@ -69,3 +71,15 @@ Route::resource('roles', RoleController::class);
 Route::middleware(['auth', 'check.credit'])->group(function () {
     Route::post('/purchase', [UsersController::class, 'purchase'])->name('purchase');
 });
+
+
+use App\Http\Controllers\Web\CreditController;
+
+Route::get('/products/insufficient_credit', [CreditController::class, 'show'])->name('insufficient.credit');
+
+Route::post('/update-credit', [UsersController::class, 'updateCredit'])->name('update.credit');
+Route::post('/update-stock', [ProductsController::class, 'updateStock'])->name('update.stock');
+
+Route::get('/purchases', [UsersController::class, 'purchases'])->name('purchases');
+
+Route::post('/bought-products', [ProductsController::class, 'boughtProducts'])->name('bought_products_list');

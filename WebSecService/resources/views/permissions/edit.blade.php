@@ -8,16 +8,16 @@
             @method('PUT')
             <div class="form-group">
                 <label for="id">ID</label>
-                <input type="text" name="name" id="id" class="form-control" value="{{ $permission->id }}" readonly>
+                <input type="text" name="id" id="id" class="form-control" value="{{ $permission->id }}" readonly>
+            </div>
+            <div class="form-group">
                 <label for="name">Name</label>
                 <input type="text" name="name" id="name" class="form-control" value="{{ $permission->name }}" readonly>
             </div>
             <div class="form-group">
                 <label for="display_name">Display Name</label>
-                <input type="checkbox" name="permissions[]" value="{{ $permission->id }}">
+                <input type="text" name="display_name" id="display_name" class="form-control" value="{{ $permission->display_name ?? '' }}">
             </div>
-
-
 
             <button type="submit" class="btn btn-primary">Update</button>
         </form>

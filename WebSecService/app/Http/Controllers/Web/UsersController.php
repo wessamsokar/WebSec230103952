@@ -5,11 +5,12 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;  
+use Spatie\Permission\Models\Permission;
 use Artisan;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Purchase;
 
 class UsersController extends Controller
 {
@@ -20,20 +21,21 @@ class UsersController extends Controller
         return view('users.insufficient-credit');
     }
 
-    public function purchase(Request $request, User $user)
+
+    public function updateCredit(Request $request)
     {
+        $request->validate([
+            'id' => 'required|exists:users,id',
+            'credit' => 'required|numeric|min:0',
+        ]);
 
-        if ($user->credit < $request->amount) {
-
-            return view('users.insufficient-credit', ['user' => $user]);
-        }
-
-
-        $user->credit -= $request->amount;
+        $user = User::find($request->id);
+        $user->credit = $request->credit;
         $user->save();
 
-        return redirect()->route('dashboard')->with('success', 'Purchase completed!');
+        return back()->with('success', 'Credit updated successfully!');
     }
+
 
 
     public function list(Request $request)
@@ -44,11 +46,15 @@ class UsersController extends Controller
 
         $query = User::query();
 
-        if (!auth()->user()->hasRole('Admin')) {
+        if (auth()->user()->hasRole('Employee')) {
             $query->whereHas('roles', function ($q) {
                 $q->where('name', 'Customer');
             });
         }
+        // Exclude users with the Admin role
+        $query->whereDoesntHave('roles', function ($q) {
+            $q->where('name', 'Admin');
+        });
 
         $query->when(
             $request->keywords,
@@ -66,19 +72,30 @@ class UsersController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users',
-            'password' => 'required'
+            'password' => 'required',
+            'credit' => 'required|numeric|min:0',
+            'role' => 'required|exists:roles,name', // التأكد من أن الدور موجود
         ], [
-            'email.unique' => 'The email has already been taken.'
+            'email.unique' => 'The email has already been taken.',
+            'role.required' => 'Please select a role.',
         ]);
-
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => bcrypt($request->password)
+            'password' => bcrypt($request->password),
+            'credit' => $request->credit,
         ]);
 
+        // تعيين الدور الواحد المختار
+        $user->assignRole($request->role);
+
         return redirect()->route('users.list')->with('success', 'User created successfully!');
+    }
+    public function create()
+    {
+        $roles = Role::all();
+        return view('users.create', compact('roles'));
     }
 
     public function register(Request $request)
@@ -91,17 +108,14 @@ class UsersController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'min:5'],
             'email' => ['required', 'email', 'unique:users'],
-            'password' => ['required', 'string', 'min:8'], // أضفت حد أدنى لكلمة المرور
+            'password' => ['required', 'string', 'min:8'],
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'credit' => 0.00,
         ]);
-
-
         $user->assignRole('Customer');
 
         Auth::login($user);
@@ -268,5 +282,13 @@ class UsersController extends Controller
         $user->save();
 
         return redirect(route('profile', ['user' => $user->id]));
+    }
+
+    public function purchases()
+    {
+        $user = auth()->user();
+        $purchases = Purchase::where('user_id', $user->id)->with('product')->get();
+
+        return view('products.bought_products_list', compact('purchases'));
     }
 }

@@ -4,7 +4,7 @@
 
     <form action="{{route('products_save', $product->id ?? '')}}" method="post">
         @csrf
-        @method($product->id ? 'PUT' : 'POST')
+        <input type="hidden" name="_method" value="{{$product->id ? 'PUT' : 'POST'}}">
 
         @foreach($errors->all() as $error)
             <div class="alert alert-danger">
@@ -29,15 +29,16 @@
                 <input type="text" class="form-control" name="name" required value="{{$product->name ?? ''}}">
             </div>
             <div class="col-6">
-                <label for="quantity" class="form-label">Quantity:</label>
-                <input type="number" class="form-control" name="quantity" required value="{{$product->quantity ?? 0}}" min="0">
+                <label for="stock" class="form-label">Quantity:</label>
+                <input type="number" class="form-control" name="stock" required value="{{$product->stock ?? 0}}" min="0">
             </div>
         </div>
 
         <div class="row mb-2">
             <div class="col-6">
                 <label for="price" class="form-label">Price:</label>
-                <input type="number" step="0.01" class="form-control" name="price" required value="{{$product->price ?? ''}}">
+                <input type="number" step="0.01" class="form-control" name="price" required
+                    value="{{$product->price ?? ''}}">
             </div>
             <div class="col-6">
                 <label for="photo" class="form-label">Photo:</label>
