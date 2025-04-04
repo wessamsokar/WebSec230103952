@@ -56,28 +56,30 @@ class RoleController extends Controller
     }
 
     public function update(Request $request, Role $role)
-    {
-        $request->validate([
-            'name' => 'required|unique:roles,name,' . $role->id,
-            'permissions' => 'array',
-        ]);
+{
+    $request->validate([
+        'name' => 'required|unique:roles,name,' . $role->id,
+        'permissions' => 'array', // Ensure permissions is an array
+    ]);
 
-        if (strtolower($role->name) === 'admin') {
-            return redirect()->route('roles.index')->with('error', 'Updating Admin role is not allowed.');
-        }
-
-        $role->update(['name' => $request->name]);
-
-        if ($request->permissions) {
-            $permissions = Permission::pluck('id')->toArray();
-            $role->syncPermissions($permissions);
-        } else {
-            $role->syncPermissions([]);
-        }
-
-        return redirect()->route('roles.index')->with('success', 'Role updated successfully.');
+    if (strtolower($role->name) === 'admin') {
+        return redirect()->route('roles.index')->with('error', 'Updating Admin role is not allowed.');
     }
 
+    // Update the role name
+    $role->update(['name' => $request->name]);
+
+    // Sync permissions using IDs
+    if ($request->permissions) {
+        // Fetch permissions by their IDs and sync them
+        $permissions = Permission::whereIn('id', $request->permissions)->get();
+        $role->syncPermissions($permissions);
+    } else {
+        $role->syncPermissions([]); // Remove all permissions if none selected
+    }
+
+    return redirect()->route('roles.index')->with('success', 'Role updated successfully.');
+}
     public function destroy(Role $role)
     {
         if (strtolower($role->name) === 'admin') {

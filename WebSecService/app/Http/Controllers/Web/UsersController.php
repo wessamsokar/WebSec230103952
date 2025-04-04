@@ -5,7 +5,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Permission;  
 use Artisan;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
@@ -22,7 +22,7 @@ class UsersController extends Controller
 
     public function purchase(Request $request, User $user)
     {
-      
+
         if ($user->credit < $request->amount) {
 
             return view('users.insufficient-credit', ['user' => $user]);

@@ -14,8 +14,7 @@
             </div>
             <div class="form-group">
                 <label for="display_name">Display Name</label>
-                <input type="text" name="display_name" id="display_name" class="form-control"
-                    value="{{ $permission->display_name }}">
+                <input type="checkbox" name="permissions[]" value="{{ $permission->id }}">
             </div>
 
 
