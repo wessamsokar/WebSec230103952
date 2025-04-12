@@ -38,11 +38,7 @@ class StudentController extends Controller
     {
         $students = Student::all();
 
-
-
-        $isAdmin = auth()->user()->hasRole('Admin');
-
-        return view('student.index', compact('students', 'isAdmin'));
+        return view('student.index', compact('students'));
     }
     public function delete(Request $request, Student $student)
     {

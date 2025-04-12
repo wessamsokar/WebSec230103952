@@ -5,7 +5,7 @@
     @section('content')
         <div class="container">
             <h1 class="mb-4">Students</h1>
-            @if($isAdmin)
+            @if(auth()->check() && auth()->user()->hasRole('Admin'))
                 <a href="{{ route('student.create') }}" class="btn btn-success mb-4">Create New Student</a>
             @endif
             <table class="table table-bordered">
@@ -22,7 +22,7 @@
                             <td>{{ $student->name }}</td>
                             <td>{{ $student->age }}</td>
                             <td>{{ $student->major }}</td>
-                            @if($isAdmin)
+                            @if(auth()->check() && auth()->user()->hasRole('Admin'))
                                 <td>
                                     <a href="" class="btn btn-warning btn-sm">Edit</a>
                                     <a class="btn btn-danger" href='{{route('student_delete', [$student->id])}}'>Delete</a>

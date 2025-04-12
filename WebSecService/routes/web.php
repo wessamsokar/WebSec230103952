@@ -83,3 +83,24 @@ Route::post('/update-stock', [ProductsController::class, 'updateStock'])->name('
 Route::get('/purchases', [UsersController::class, 'purchases'])->name('purchases');
 
 Route::post('/bought-products', [ProductsController::class, 'boughtProducts'])->name('bought_products_list');
+
+Route::get('verify', [UsersController::class, 'verify'])->name('verify');
+
+Route::get(
+    '/auth/google',
+    [UsersController::class, 'redirectToGoogle']
+)->name('login_with_google');
+
+Route::get(
+    '/auth/google/callback',
+    [UsersController::class, 'handleGoogleCallback']
+);
+
+
+Route::get('forgot-password', [UsersController::class, 'forgotPassword'])->name('forgot_password');
+Route::post('send-reset-password', [UsersController::class, 'sendResetPassword'])->name('send_reset_password');
+Route::get('change-password', [UsersController::class, 'changePassword'])->name('change-password');
+Route::post('update-password', [UsersController::class, 'updatePassword'])->name('update_password');
+
+Route::get('auth/google', [UsersController::class, 'redirectToGoogle'])->name('login_with_google');
+Route::get('auth/google/callback', [UsersController::class, 'handleGoogleCallback']);
