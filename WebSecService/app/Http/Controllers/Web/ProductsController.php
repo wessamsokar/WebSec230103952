@@ -54,9 +54,8 @@ class ProductsController extends Controller
         );
 
         $products = $query->get();
-        $isCustomer = auth()->user()->hasRole('Customer');
 
-        return view('products.list', compact('products', 'isCustomer'));
+        return view('products.list', compact('products'));
     }
 
     public function edit(Request $request, Product $product = null)

@@ -74,17 +74,13 @@
                                 @endcan
                             </div>
                             <div class="col col-2">
-                                @if ($isCustomer)
+                                @if (auth()->check() && !auth()->user()->can('edit_products') && !auth()->user()->can('delete_products'))
                                     @if($product->stock != 0)
-                                        @if(Auth::user()->credit < $product->price)
-                                            <a href="{{ route('insufficient.credit') }}" class="btn btn-warning form-control">Buy</a>
-                                        @else
-                                            <form action="{{ route('bought_products_list') }}" method="POST">
-                                                @csrf
-                                                <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                                <button type="submit" class="btn btn-success form-control">Buy</button>
-                                            </form>
-                                        @endif
+                                        <form action="{{ route('bought_products_list') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                            <button type="submit" class="btn btn-success form-control">Buy</button>
+                                        </form>
                                     @endif
                                 @endif
                             </div>
@@ -105,20 +101,7 @@
                             </tr>
                             <tr>
                                 <th>Quantity</th>
-                                <td>
-                                    @can('edit_products')
-                                        <form action="{{ route('update.stock') }}" method="POST">
-                                            @csrf
-                                            <input type="number" name="stock" class="form-control" value="{{ $product->stock }}"
-                                                min="{{ $product->stock }}">
-                                            <input type="hidden" name="id" value="{{ $product->id }}">
-                                            <button type="submit" class="btn btn-primary mt-2">Update</button>
-                                        </form>
-                                    @else
-                                        {{ $product->stock }} {{ $product->stock == 0 ? '(Out of Stock)' : '' }}
-                                    @endcan
-                                </td>
-
+                                <td>{{ $product->stock }} {{ $product->stock == 0 ? '(Out of Stock)' : '' }}</td>
                             </tr>
                             <tr>
                                 <th>Price</th>
