@@ -127,13 +127,13 @@ class UsersController extends Controller
         ]);
         $user->assignRole('Customer');
 
-        Auth::login($user);
+        // Auth::login($user);
 
         $title = "Verification Link";
         $token = Crypt::encryptString(json_encode(['id' => $user->id, 'email' => $user->email]));
         $link = route("verify", ['token' => $token]);
         Mail::to($user->email)->send(new VerificationEmail($link, $user->name));
-        return redirect('/');
+        return redirect('/login');
 
     }
 
@@ -162,7 +162,13 @@ class UsersController extends Controller
         // Check regular or temporary password
         if (Hash::check($request->password, $user->password) || ($user->temp_password && Hash::check($request->password, $user->temp_password))) {
             if (!$user->email_verified_at) {
-                return redirect()->back()->withErrors(['email' => 'Your email is not verified yet.']);
+                // Send verification email
+                $title = "Verification Link";
+                $token = Crypt::encryptString(json_encode(['id' => $user->id, 'email' => $user->email]));
+                $link = route("verify", ['token' => $token]);
+                Mail::to($user->email)->send(new VerificationEmail($link, $user->name));
+
+                return redirect()->back()->withErrors(['email' => 'Your email is not verified. A new verification link has been sent to your email.']);
             }
 
             Auth::login($user);
@@ -295,8 +301,6 @@ class UsersController extends Controller
             Artisan::call('cache:clear');
         }
 
-
-
         return redirect(route('profile', ['user' => $user->id]));
     }
 
@@ -330,8 +334,6 @@ class UsersController extends Controller
     {
 
         if (auth()->id() == $user?->id) {
-
-
 
             if (!Auth::attempt(['email' => $user->email, 'password' => $request->old_password])) {
 
