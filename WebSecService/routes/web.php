@@ -121,7 +121,3 @@ Route::get('/collect', function (Request $request) {
         ->header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
         ->header('Access-Control-Allow-Headers', 'Content-Type, X-Requested-With');
 });
-
-
-
-
