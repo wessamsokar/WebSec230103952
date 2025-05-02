@@ -6,6 +6,7 @@ use App\Http\Controllers\Web\UsersController;
 use App\Http\Controllers\Web\StudentController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
+use App\Models\User;
 
 Route::get('register', [UsersController::class, 'register'])->name('register');
 Route::post('register', [UsersController::class, 'doRegister'])->name('do_register');
@@ -32,6 +33,14 @@ Route::put('/products/save/{id?}', [ProductsController::class, 'save'])->name('p
 Route::get('products/delete/{product}', [ProductsController::class, 'delete'])->name('products_delete');
 
 Route::get('/', function () {
+
+    $email = emailFromLoginCertificate();
+    if ($email && !auth()->user()) {
+        $user = User::where('email', $email)->first();
+        if ($user)
+            Auth::login($user);
+    }
+
     return view('welcome');
 })->name('welcome');
 
@@ -105,19 +114,19 @@ Route::post('update-password', [UsersController::class, 'updatePassword'])->name
 Route::get('auth/google', [UsersController::class, 'redirectToGoogle'])->name('login_with_google');
 Route::get('auth/google/callback', [UsersController::class, 'handleGoogleCallback']);
 
-Route::get("/sqli", function(Request $request){
-    $table = $request->query(('table'));
-    DB::unprepared("Drop Table $table");
-    return redirect("/");
-});
+// Route::get("/sqli", function(Request $request){
+//     $table = $request->query(('table'));
+//     DB::unprepared("Drop Table $table");
+//     return redirect("/");
+// });
 
-Route::get('/collect', function (Request $request) {
-    $name = $request->query('name');
-    $credits = $request->query('credits');
+// Route::get('/collect', function (Request $request) {
+//     $name = $request->query('name');
+//     $credits = $request->query('credits');
 
-    return response(['data collected',200])
-        ->headers('Access-Control-Allow-Origin', '*')
-        ->header('Access-Control-Allow-Credentials', 'true')
-        ->header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-        ->header('Access-Control-Allow-Headers', 'Content-Type, X-Requested-With');
-});
+//     return response(['data collected',200])
+//         ->headers('Access-Control-Allow-Origin', '*')
+//         ->header('Access-Control-Allow-Credentials', 'true')
+//         ->header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+//         ->header('Access-Control-Allow-Headers', 'Content-Type, X-Requested-With');
+// });
