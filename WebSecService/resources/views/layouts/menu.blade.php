@@ -20,6 +20,16 @@
                 <a class="nav-link" href="{{ url('/bill') }}">Bill</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="{{route('cryptography')}}">Cryptography</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{route('webcrypto')}}">Web Crypto</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('/file-security') }}">File Security</a>
+            </li>
+
+            <li class="nav-item">
                 <a class="nav-link" href="{{route('products_list')}}">Products</a>
             </li>
             @can('show_users')
@@ -32,14 +42,14 @@
 
             </li>
             @can('admin_users')
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url('/permissions') }}">Permissions</a>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/permissions') }}">Permissions</a>
 
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url('/roles') }}">Roles</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/roles') }}">Roles</a>
 
-            </li>
+                </li>
             @endcan
         </ul>
         <ul class="navbar-nav">
